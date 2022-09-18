@@ -14,14 +14,19 @@ Carousel.prototype = {
     this.CODE_LEFT_ARROW = 'ArrowLeft';
     this.CODE_RIGHT_ARROW = 'ArrowRight';
     this.CODE_SPACE = 'Space';
+    this.FA_PLAY = '<i class="fa-regular fa-circle-play"></i>';
+    this.FA_PAUSE = '<i class="fa-regular fa-circle-pause"></i>';
+    this.FA_PREV = '<i class="fa-solid fa-chevron-left"></i>';
+    this.FA_NEXT = '<i class="fa-solid fa-chevron-right"></i>';
+    this.isPlaying = true;
 
     this.currentSlide = 0;
   },
   _initControls() {
     const controls = document.createElement('div');
-    const PAUSE = '<span class="control control-pause" id="pause">Pause</span>';
-    const PREV = '<span class="control control-prev" id="prev">Previous</span>';
-    const NEXT = '<span class="control control-next" id="next">Next</span>';
+    const PAUSE = `<span class="control control-pause" id="pause">${this.FA_PAUSE}</span>`;
+    const PREV = `<span class="control control-prev" id="prev">${this.FA_PREV}</span>`;
+    const NEXT = `<span class="control control-next" id="next">${this.FA_NEXT}</span>`;
     controls.setAttribute('class', 'controls');
     controls.innerHTML = PAUSE + PREV + NEXT;
     this.container.append(controls);
@@ -51,7 +56,7 @@ Carousel.prototype = {
     this._initControls();
     this._initIndicators();
     this._initListeners();
-    this.tick();
+    this._tick();
   },
   pausePlay() {
     if (this.isPlaying) this._pause();
@@ -73,12 +78,12 @@ Carousel.prototype = {
   _pause() {
     this.isPlaying = false;
     clearInterval(this.timerID);
-    this.pauseBtn.innerHTML = 'Play';
+    this.pauseBtn.innerHTML = this.FA_PLAY;
   },
   _play() {
     this.isPlaying = true;
-    this.tick();
-    this.pauseBtn.innerHTML = 'Pause';
+    this._tick();
+    this.pauseBtn.innerHTML = this.FA_PAUSE;
   },
   _next() {
     this._gotoNext();
